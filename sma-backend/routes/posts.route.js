@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {createPosts,listPosts} from "../services/posts.service.js";
+import {createPosts,listPosts, getLikesCount} from "../services/posts.service.js";
 
 const router = Router();
 
@@ -31,5 +31,16 @@ router.get("/",async(req,res)=>{
         });
     }
 })
+
+router.get('/:id/like', async (req, res) => {
+  const postId = parseInt(req.params.id);
+  try {
+    const count = await getLikesCount(postId);
+    res.json({ postId, likes: count });
+  } catch (error) {
+    res.status(400).json({ error: "Error fetching likes count" });
+  }
+});
+
 
 export default router;

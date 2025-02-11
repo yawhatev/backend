@@ -17,7 +17,7 @@ const createPosts = async (req) => {
 }
 
 const listPosts = async (req) => {
-  const seachParams= req.query.search
+  const searchParams= req.query.search
   const result = await prisma.posts.findMany({
     where: {
         OR: [
@@ -42,7 +42,14 @@ const listPosts = async (req) => {
     }
 })
   return result;
-}
+};
+
+const getLikesCount = async (postId) => {
+    const likesCount = await prisma.likes.count({
+      where: { postId: postId },
+    });
+    return likesCount;
+  };  
 
 
-export {createPosts, listPosts }
+export {createPosts, listPosts, getLikesCount };

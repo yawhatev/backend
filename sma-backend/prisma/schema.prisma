@@ -37,4 +37,12 @@ model Posts {
   likesCount Int @default(0)
   User User? @relation(fields: [userId], references: [id])
   userId Int?
+  likes likes[]
+}
+
+model likes {
+  id        Int      @id @default(autoincrement())
+  PostId    Int
+  Post     Posts  @relation(fields: [PostId], references: [id])
+  createdAt DateTime @default(now())
 }
