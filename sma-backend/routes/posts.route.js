@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {createPosts,listPosts, getLikesCount} from "../services/posts.service.js";
+import {createPosts,listPosts, updatePosts,deletedPosts} from "../services/posts.service.js";
 
 const router = Router();
 
@@ -32,15 +32,31 @@ router.get("/",async(req,res)=>{
     }
 })
 
-router.get('/:id/like', async (req, res) => {
-  const postId = parseInt(req.params.id);
+router.patch("/:postId", async (req, res) => {
   try {
-    const count = await getLikesCount(postId);
-    res.json({ postId, likes: count });
+    console.log("server at updateost route");
+    const result = await updatePosts(req)
+    res.send(result)
   } catch (error) {
-    res.status(400).json({ error: "Error fetching likes count" });
+    console.log("Error at udate: ", error);
+    res.status(400).json({
+      message: "Error Occured",
+      error: error
+    });
+  }
+})
+
+router.delete("/:postId", async (req, res) => {
+  try {
+      const result = await deletePosts(req);
+      res.send(result);
+  } catch (error) {
+      console.log("Error at deleting post: ", error);
+      res.status(400).send({
+          message: "Error Occurred",
+          error: error
+      });
   }
 });
-
 
 export default router;

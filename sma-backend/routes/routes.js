@@ -10,5 +10,7 @@ router.use("/auth",authRouter);
 router.use(authentication);
 
 router.use("/posts",postRouter);
+router.patch("/posts",postRouter);
+router.delete("/posts",postRouter);
 
 export default router;
