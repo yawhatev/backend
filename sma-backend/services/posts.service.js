@@ -1,8 +1,17 @@
 import { PrismaClient } from "@prisma/client";
+import EventEmitter from "events"//event listener
 
 const prisma = new PrismaClient();
 
+const eventEmitter=new EventEmitter()
+
+eventEmitter.on("greet",(message)=>{
+    console.log("hello!goodmorning");
+    console.log("message:",message)
+})
+
 const createPosts = async (req) => {
+eventEmitter.emit("greet","create post is called");
   const content = req.body.content
   const result = await prisma.posts.create({
       data: {
@@ -17,6 +26,7 @@ const createPosts = async (req) => {
 }
 
 const listPosts = async (req) => {
+    eventEmitter.emit("greet","list post is called");
   const searchParams= req.query.search
   const result = await prisma.posts.findMany({
     where: {
@@ -45,6 +55,7 @@ const listPosts = async (req) => {
 };
 
 const updatePosts = async (req) => {
+    eventEmitter.emit("greet","update post is called");
   const content = req.body.content;
   const postId = req.params.id; // Fix: Extract `id` correctly
 
@@ -65,6 +76,7 @@ const updatePosts = async (req) => {
   return { result };
 };
 const deletePosts = async (req) => {
+    eventEmitter.emit("greet","delete post is called");
   const postId = req.params.id;
       
           const checkPostExist = await prisma.posts.findFirst({

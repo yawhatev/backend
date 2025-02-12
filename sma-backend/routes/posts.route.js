@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {createPosts,listPosts, updatePosts,deletedPosts} from "../services/posts.service.js";
+import {createPosts,listPosts, updatePosts, deletePosts} from "../services/posts.service.js";
 
 const router = Router();
 
@@ -32,7 +32,7 @@ router.get("/",async(req,res)=>{
     }
 })
 
-router.patch("/:postId", async (req, res) => {
+router.patch("/:id", async (req, res) => {
   try {
     console.log("server at updateost route");
     const result = await updatePosts(req)
@@ -46,7 +46,7 @@ router.patch("/:postId", async (req, res) => {
   }
 })
 
-router.delete("/:postId", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
       const result = await deletePosts(req);
       res.send(result);
